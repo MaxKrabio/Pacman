@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>654</width>
-    <height>445</height>
+    <width>770</width>
+    <height>484</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -42,16 +42,34 @@ QPushButton:pressed
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>456</width>
+     <height>520</height>
+    </size>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>456</width>
+     <height>520</height>
+    </size>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>0</y>
-      <width>160</width>
-      <height>391</height>
+      <x>260</x>
+      <y>10</y>
+      <width>402</width>
+      <height>572</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -62,14 +80,20 @@ QPushButton:pressed
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
      <item>
-      <widget class="QPushButton" name="Start">
+      <widget class="QPushButton" name="StartButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="text">
         <string>Start</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="ScoreButton">
        <property name="minimumSize">
         <size>
          <width>30</width>
@@ -82,14 +106,14 @@ QPushButton:pressed
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="SettingsButton">
        <property name="text">
         <string>Settings</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="ExitButton">
        <property name="text">
         <string>Exit</string>
        </property>

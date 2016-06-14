@@ -5,20 +5,23 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QScopedPointer>
-class Game : virtual public QThread, public QWidget
+#include <QWidget>
+class Size;
+class Player;
+class Maze;
+class Game
 {
-    Q_OBJECT
 private:
-    Size size;
-    Position pos;
+    Size *size;
     QScopedPointer<Player> player;
     QScopedPointer<Maze> maze;
 public:
-    explicit Game(QWidget *parent);
-    void paintEvent(QPaintEvent * event);
-    void g_update();
-    void gameLoop();
-    void run();
+    explicit Game(const Size &size);
+    explicit Game(int w, int h);
+    void draw(QPainter *painter);
+    void update();
+    bool isOver();
+    void checkPlayerCollision();
     virtual ~Game();
 };
 

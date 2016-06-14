@@ -1,18 +1,31 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include<QObject>
-#include<QPainter>
 class Position;
 class Size;
+class QPainter;
+class QPixmap;
 class Player : public QObject
 {
  Q_OBJECT
 private:
-        Position pos;
+        Position *startPosition;
+        Position *pos;
+        QPixmap  *heroSprite;
+        int health;
+        int speed;
+        static int direction;
+        int dx;
+        int dy;
 public:
-    Player(QObject *parent = 0);
+    explicit Player();
     void draw(QPainter *painter);
     void update();
+    void move();
+    bool alive();
+    static void setDirection(int direct);
+    const Position & getPosition();
+    ~Player();
 };
 
 #endif // PLAYER_H

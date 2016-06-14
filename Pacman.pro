@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     Player.cpp \
     Size.cpp \
     Enemy.cpp \
-    Maze.cpp
+    Maze.cpp \
+    Canvas.cpp \
+    GameLoop.cpp
 
 HEADERS  += mainwindow.h \
     Position.h \
@@ -27,6 +29,11 @@ HEADERS  += mainwindow.h \
     Player.h \
     Size.h \
     Enemy.h \
-    Maze.h
+    Maze.h \
+    Canvas.h \
+    GameLoop.h
 
 FORMS    += mainwindow.ui
+
+RESOURCES += \
+    resources.qrc
