@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include<QObject>
+#include <QKeyEvent>
 class Position;
 class Size;
 class QPainter;
@@ -23,6 +24,7 @@ public:
     void update();
     void move();
     bool alive();
+//    bool event (QEvent *Event);
     static void setDirection(int direct);
     const Position & getPosition();
     ~Player();

@@ -5,11 +5,12 @@ void Canvas::paintEvent (QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter painter(this);
     game->draw (&painter);
+    this->setFocusPolicy (Qt::StrongFocus);
 }
 
-void Canvas::keyPressEvent (QKeyEvent *event) {
+void Canvas::keyPressEvent (QKeyEvent *event)    {
       int key = event->key();
-    if (key < 37 || key > 40)
+    if (key < Qt::Key_Left || key > Qt::Key_Down)
         return;
     else Player::setDirection (key);
 }

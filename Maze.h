@@ -8,15 +8,22 @@ class QPainter;
 class Maze
 {
 private:
-    Size size;
-    static QString field;
+     Size size;
+     static QVector<QString> field;
 public:
     Maze(const Size &size);
     Maze(int w, int h);
     void draw(QPainter *painter);
     void update();
-    static inline int charAt(int x, int y) {
-            return (int)(field.at (x*y).toLatin1 ())- 48;
+    static inline bool checkPosition(int x, int y) {
+            bool state = true;
+            if (field[x / 2].at (y / 2) == '0')
+                state = false;
+            if (x <= 0 || x >= 456)
+                state = false;
+            else if (y < 0 || y > 520)
+                state = false;
+            return state;
     }
 };
 

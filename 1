@@ -1,0 +1,25 @@
+/* QImage image(456,520, QImage::Format_ARGB32_Premultiplied);
+    QPainter p(&image);
+    QPen pen(Qt::white, 20, Qt::SolidLine, Qt::RoundCap);
+    pen.setBrush (QBrush(Qt::white, Qt::SolidPattern));
+    for (int i = 0; i < 260;++i) {
+        for (int j = 0; j < 228; ++j) {
+            if (field[i].at (j) == '0') {
+                p.setBrush (QBrush(Qt::black, Qt::SolidPattern));
+                p.setPen (QPen(Qt::black, 20, Qt::SolidLine, Qt::RoundCap));
+            }
+            else {
+                p.setPen (pen);
+                p.setBrush (QBrush(Qt::white, Qt::SolidPattern));
+            }
+            //p.drawEllipse (j * 2, i * 2 , 30, 30);
+            p.drawRect (j * 2, i * 2 , 20, 20);
+        //    p.drawPoint (i - 1,j);
+
+        }
+    }
+    image.save ("/home/max/maze","PNG");
+
+   /* painter->setBrush (Qt::red);
+    painter->setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::FlatCap));
+    painter->drawRect (0, 0, size.width , size.height);*/

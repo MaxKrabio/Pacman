@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>770</width>
-    <height>484</height>
+    <width>456</width>
+    <height>555</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>456</width>
+    <height>520</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>456</width>
+    <height>520</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
@@ -66,8 +78,8 @@ QPushButton:pressed
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>260</x>
-      <y>10</y>
+      <x>30</x>
+      <y>0</y>
       <width>402</width>
       <height>572</height>
      </rect>

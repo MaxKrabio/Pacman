@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Size.h"
+#include "Maze.h"
 #include "Position.h"
 #include <QPainter>
 #include <QKeyEvent>
@@ -21,28 +22,32 @@ Player::Player() :QObject()
 void Player::setDirection (int direct) {
     direction = direct;
 }
-/*
-bool Player::event(QEvent *event) {
+
+/*bool Player::event(QEvent *event) {
     QKeyEvent *kEvent = static_cast<QKeyEvent *> (event);
     int key = kEvent->key();
     if (key < 37 || key > 40)
         return false;
     else direction = key;
-}*/
-
+}
+*/
 void Player::move() {
     switch (direction) {
-        case Qt::UpArrow :
+        case Qt::Key_Up :
                             dy = -speed;
+                            dx = 0;
                             break;
-        case Qt::DownArrow :
+        case Qt::Key_Down :
                             dy = speed;
+                            dx = 0;
                             break;
-        case Qt::LeftArrow :
+        case Qt::Key_Left :
                             dx = -speed;
+                            dy = 0;
                             break;
-        case Qt::RightArrow :
+        case Qt::Key_Right :
                             dx = speed;
+                            dy = 0;
                             break;
     }
 
@@ -54,11 +59,15 @@ bool Player::alive() {
 
 void Player::update () {
     move();
-    pos->x += dx;
-    pos->y += dy;
+    if (Maze::checkPosition(pos->x + dx, pos->y + dy)){
+        pos->x += dx;
+        pos->y += dy;
+    } else {
+                pos->x-=dx;
+                pos->y -=dy;
+    }
 }
 void Player::draw (QPainter *painter) {
- //   painter->setPen (QPen(Qt::red,Qt::SolidLine, 1, Qt::FlatCap));
     painter->setBrush (QBrush(Qt::red, Qt::SolidPattern));
     painter->drawRect (pos->x, pos->y, 30, 30);
 }

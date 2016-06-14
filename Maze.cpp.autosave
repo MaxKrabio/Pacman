@@ -16,7 +16,7 @@ Maze::Maze(int w, int h)
  QFile file(":/res/resources/maze.txt");
  if (!file.open (QIODevice::ReadOnly)) {
     QMessageBox msg;
-    msg.setText ("Error! Can't read maze!");
+    msg.setText ("Error! Can't read the maze!");
     msg.show ();
  }
     QTextStream out(&file);

@@ -12,8 +12,9 @@ void GameLoop::run () {
 
     while (!game->isOver ()) {
          game->update ();
-         canvas->repaint ();
-         //canvas->update ();
-         this->msleep (40);
+         canvas->update ();
+         //canvas->repaint ();
+         this->msleep (30);
+
     }
 }
