@@ -11,7 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = Pacman
 TEMPLATE = app
 
-
+CONFIG += c++11
 SOURCES += main.cpp\
         mainwindow.cpp \
     Position.cpp \
@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     Enemy.cpp \
     Maze.cpp \
     Canvas.cpp \
-    GameLoop.cpp
+    GameLoop.cpp \
+    Pill.cpp \
+    PowerPill.cpp
 
 HEADERS  += mainwindow.h \
     Position.h \
@@ -31,7 +33,9 @@ HEADERS  += mainwindow.h \
     Enemy.h \
     Maze.h \
     Canvas.h \
-    GameLoop.h
+    GameLoop.h \
+    Pill.h \
+    PowerPill.h
 
 FORMS    += mainwindow.ui
 

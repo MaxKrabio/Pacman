@@ -15,6 +15,7 @@ private:
         QPixmap  *heroSprite;
         int health;
         int speed;
+        static int reqDirection;
         static int direction;
         int dx;
         int dy;
@@ -22,10 +23,10 @@ public:
     explicit Player();
     void draw(QPainter *painter);
     void update();
-    void move();
+    bool move(int rDirection);
     bool alive();
 //    bool event (QEvent *Event);
-    static void setDirection(int direct);
+    static void setReqDirection(int direct);
     const Position & getPosition();
     ~Player();
 };

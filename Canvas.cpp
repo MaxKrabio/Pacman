@@ -12,5 +12,5 @@ void Canvas::keyPressEvent (QKeyEvent *event)    {
       int key = event->key();
     if (key < Qt::Key_Left || key > Qt::Key_Down)
         return;
-    else Player::setDirection (key);
+    else Player::setReqDirection (key);
 }

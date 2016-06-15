@@ -8,6 +8,7 @@ public:
     double x;
     double y;
     Position();
+    Position(int X , int Y);
     bool operator == (const Position &pos);
 };
 

@@ -5,22 +5,24 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QPixmap>
+int Player::reqDirection = Qt::RightArrow;
 int Player::direction = Qt::RightArrow;
 Player::Player() :QObject()
 {
     pos = new Position();
-    pos->x = 300;
-    pos->y = 300;
+    pos->x = 99;
+    pos->y = 44;
     dx = 0;
     dy = 0;
     startPosition = new Position();
     health = 3;
     speed = 2;
     direction = Qt::RightArrow;
+
     heroSprite = new QPixmap(":/res/resources/pacman.png");
 }
-void Player::setDirection (int direct) {
-    direction = direct;
+void Player::setReqDirection (int direct) {
+    reqDirection = direct;
 }
 
 /*bool Player::event(QEvent *event) {
@@ -28,29 +30,43 @@ void Player::setDirection (int direct) {
     int key = kEvent->key();
     if (key < 37 || key > 40)
         return false;
-    else direction = key;
+    else reqDirection = key;
 }
 */
-void Player::move() {
-    switch (direction) {
+bool Player::move(int rDirection) {
+
+    bool state = false;
+    switch (rDirection) {
         case Qt::Key_Up :
-                            dy = -speed;
-                            dx = 0;
+                            if ( pos->x  > 0 &&
+                                Maze::checkPosition (pos->x -1,pos->y)) {
+                                  pos->x += - 1;
+                                  state = true;
+                            }
                             break;
         case Qt::Key_Down :
-                            dy = speed;
-                            dx = 0;
+                            if ( pos->x  < 259  &&
+                                Maze::checkPosition (pos->x +1,pos->y)) {
+                                    pos->x += 1;
+                                    state = true;
+                            }
                             break;
         case Qt::Key_Left :
-                            dx = -speed;
-                            dy = 0;
+                            if ( pos->y  > 0  &&
+                                Maze::checkPosition (pos->x, pos->y -1)) {
+                                    pos->y += - 1;
+                                    state = true;
+                            }
                             break;
         case Qt::Key_Right :
-                            dx = speed;
-                            dy = 0;
+                            if ( pos->y < 227 &&
+                                 Maze::checkPosition (pos->x, pos->y +1 )) {
+                                     pos->y += 1;
+                                     state = true;
+                            }
                             break;
     }
-
+    return state;
 }
 
 bool Player::alive() {
@@ -58,18 +74,22 @@ bool Player::alive() {
 }
 
 void Player::update () {
-    move();
+    if (move(reqDirection) == true)
+        direction = reqDirection;
+    else
+        move(direction);/*
     if (Maze::checkPosition(pos->x + dx, pos->y + dy)){
+        move(direction);
         pos->x += dx;
         pos->y += dy;
     } else {
                 pos->x-=dx;
                 pos->y -=dy;
-    }
+    }*/
 }
 void Player::draw (QPainter *painter) {
     painter->setBrush (QBrush(Qt::red, Qt::SolidPattern));
-    painter->drawRect (pos->x, pos->y, 30, 30);
+    painter->drawRect (pos->y *2, pos->x *2, 30, 30);
 }
 Player::~Player () {
     delete heroSprite;
