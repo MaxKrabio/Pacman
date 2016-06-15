@@ -9,7 +9,8 @@ public:
     double y;
     Position();
     Position(int X , int Y);
-    bool operator == (const Position &pos);
+    void operator=(const Position &position);
+    bool operator==(const Position &pos);
 };
 
 #endif // POSITION_H

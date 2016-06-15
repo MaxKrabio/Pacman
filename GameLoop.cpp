@@ -13,7 +13,7 @@ void GameLoop::run () {
          game->update ();
          canvas->update ();
          //canvas->repaint ();
-         this->msleep (20);
+         this->msleep (game->getDelay ());
 
     }
 }

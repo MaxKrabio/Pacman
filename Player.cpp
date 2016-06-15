@@ -7,6 +7,8 @@
 #include <QPixmap>
 int Player::reqDirection = Qt::RightArrow;
 int Player::direction = Qt::RightArrow;
+Position* Player::pos;
+Position* Player::startPosition;
 Player::Player() :QObject()
 {
     pos = new Position();
@@ -72,6 +74,9 @@ bool Player::move(int rDirection) {
 bool Player::alive() {
     return health > 0 ? true : false;
 }
+const Position * Player::playerPosition () {
+    return pos;
+}
 
 void Player::update () {
     if (move(reqDirection) == true)
@@ -91,6 +96,16 @@ void Player::draw (QPainter *painter) {
     painter->setBrush (QBrush(Qt::red, Qt::SolidPattern));
     painter->drawRect (pos->y *2, pos->x *2, 30, 30);
 }
+void Player::setOnStartPosition() {
+    pos = startPosition;
+}
+
+void Player::initPosition (int x, int y) {
+    pos->x = x;
+    pos->y = y;
+    startPosition = pos;
+}
+
 Player::~Player () {
     delete heroSprite;
     delete pos;

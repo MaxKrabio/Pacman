@@ -1,7 +1,6 @@
 #ifndef POWERPILL_H
 #define POWERPILL_H
-
-class Pill;
+#include "Pill.h"
 class QPainter;
 class PowerPill : public Pill
 {

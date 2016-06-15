@@ -10,8 +10,8 @@ class Player : public QObject
 {
  Q_OBJECT
 private:
-        Position *startPosition;
-        Position *pos;
+        static Position *startPosition;
+        static Position *pos;
         QPixmap  *heroSprite;
         int health;
         int speed;
@@ -23,12 +23,17 @@ public:
     explicit Player();
     void draw(QPainter *painter);
     void update();
+    static const Position * playerPosition();
     bool move(int rDirection);
     bool alive();
+    void addMoney(int kesh);
+    void setOnStartPosition();
+    bool levelComplete();
+    static void initPosition(int x, int y);
 //    bool event (QEvent *Event);
     static void setReqDirection(int direct);
     const Position & getPosition();
-    ~Player();
+    virtual ~Player();
 };
 
 #endif // PLAYER_H

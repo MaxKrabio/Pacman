@@ -8,6 +8,7 @@ protected:
     Position pos;
 public:
     Pill(int x, int y);
+    Position & getPostion();
     virtual void draw(QPainter *painter);
 };
 
