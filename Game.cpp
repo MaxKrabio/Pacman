@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Maze.h"
 #include "Player.h"
+#include "Enemy.h"
 /*Game::Game(const Size &sz) : size(sz),
     player(new Player()), maze(new Maze(sz))
 {
@@ -8,7 +9,7 @@
 int Game::delay;
 long long Game::money;
 Game::Game(int w ,int h) : QObject(),
-    player(new Player()), maze(new Maze(w, h)),size(new Size(w,h))
+    player(new Player()), enemy(new Enemy()), maze(new Maze(w, h)), size(new Size(w,h))
 {
     maze->initPlayerStartPosition ();
     delay = 30;
@@ -17,10 +18,12 @@ Game::Game(int w ,int h) : QObject(),
 void Game::draw (QPainter *painter) {
     maze->draw(painter);
     player->draw (painter);
+    enemy->draw(painter);
 }
 void Game::update () {
     maze->update();
     player->update ();
+    enemy->update ();
     if (levelComplete ())
      emit roundRestart();
 }

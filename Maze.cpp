@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "PowerPill.h"
 #include "Game.h"
+#include "Enemy.h"
 QVector<QString> Maze::field;
 int Maze::countPills;
 /*Maze::Maze(const Size &size) : QObject()
@@ -33,6 +34,7 @@ Maze::Maze(int w, int h) : QObject(), timer(this)
     updateData();
     initPills ();
     initPlayerStartPosition();
+    initEnemyStartPosition ();
     connect(&timer,&QTimer::timeout,this, &Maze::endAngryPacmanMode);
 }
 void Maze::draw (QPainter *painter) {
@@ -109,6 +111,23 @@ void Maze::initPlayerStartPosition () {
          }
     }
 }
+void Maze::initEnemyStartPosition () {
+    int rlength = field.length ();
+    int clength = field[0].length ();
+    for (int row  = 0; row < rlength;++row) {
+         for (int column = 0; column < clength;++column) {
+                if (field[row].at(column) == '4') {
+                     Enemy::initPosition(row, column);
+                    return;
+                 }
+         }
+    }
+}
+
+QVector<QString> Maze::getField () {
+    return field;
+}
+
 Maze::~Maze() {
     pills.clear ();
     startPills.clear();

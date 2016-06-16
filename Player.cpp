@@ -27,14 +27,6 @@ void Player::setReqDirection (int direct) {
     reqDirection = direct;
 }
 
-/*bool Player::event(QEvent *event) {
-    QKeyEvent *kEvent = static_cast<QKeyEvent *> (event);
-    int key = kEvent->key();
-    if (key < 37 || key > 40)
-        return false;
-    else reqDirection = key;
-}
-*/
 bool Player::move(int rDirection) {
 
     bool state = false;
@@ -54,15 +46,23 @@ bool Player::move(int rDirection) {
                             }
                             break;
         case Qt::Key_Left :
-                            if ( pos->y  > 0  &&
+                            if (pos->y - 1 == 0 &&
                                 Maze::checkPosition (pos->x, pos->y -1)) {
+                                    pos->y = 227;
+                                    state = true;
+                            }  else if ( pos->y  > 0  &&
+                                    Maze::checkPosition (pos->x, pos->y -1)) {
                                     pos->y += - 1;
                                     state = true;
                             }
                             break;
         case Qt::Key_Right :
-                            if ( pos->y < 227 &&
+                             if ( pos->y + 1 == 227 &&
                                  Maze::checkPosition (pos->x, pos->y +1 )) {
+                                     pos->y = 1;
+                                     state = true;
+                            }  else if ( pos->y < 227 &&
+                                    Maze::checkPosition (pos->x, pos->y +1 )) {
                                      pos->y += 1;
                                      state = true;
                             }
@@ -82,19 +82,11 @@ void Player::update () {
     if (move(reqDirection) == true)
         direction = reqDirection;
     else
-        move(direction);/*
-    if (Maze::checkPosition(pos->x + dx, pos->y + dy)){
         move(direction);
-        pos->x += dx;
-        pos->y += dy;
-    } else {
-                pos->x-=dx;
-                pos->y -=dy;
-    }*/
 }
 void Player::draw (QPainter *painter) {
     painter->setBrush (QBrush(Qt::red, Qt::SolidPattern));
-    painter->drawRect (pos->y *2, pos->x *2, 30, 30);
+    painter->drawRect (pos->y *2 - 10, pos->x *2 + 15, 30, 30);
 }
 void Player::setOnStartPosition() {
     pos = startPosition;

@@ -31,8 +31,10 @@ public:
     void initPills();
     bool levelComplete();
     void setPillsCount();
-    int getPillsCount();
+    static QVector<QString> getField();
     static void initPlayerStartPosition ();
+    static void initEnemyStartPosition();
+    int getPillsCount();
     static inline bool checkPosition(int x, int y) {
             return field[x].at (y) != '0';
     }

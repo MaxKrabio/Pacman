@@ -1,0 +1,41 @@
+#include "Enemy.h"
+#include "Player.h"
+#include "Maze.h"
+#include <QPainter>
+#include <QStack>
+#include "Size.h"
+Position *Enemy::position;
+Enemy::Enemy()  {
+    position = new Position();
+}
+void Enemy::draw (QPainter *painter) {
+    painter->setBrush (QBrush(Qt::blue, Qt::SolidPattern));
+    painter->drawRect (position->y *2, position->x *2, 30, 30);
+}
+const Position & Enemy::getPosition () {
+    return *position;
+}
+void Enemy::initPosition (int x, int y) {
+    position->x = x;
+    position->y = y;
+}
+void Enemy::getPathToTarget () {
+    pathToPacman.clear ();
+    Field = Maze::getField ();
+    const Position * playerPosition = Player::playerPosition ();
+   
+}
+void Enemy::update () {
+    getPathToTarget ();
+    move();
+}
+void Enemy::move() {
+    //*position = pathToPacman.top ();
+    //pathToPacman.removeFirst ();
+
+}
+Enemy::~Enemy () {
+    delete position;
+    pathToAngle.clear ();
+    pathToPacman.clear();
+}
