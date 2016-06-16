@@ -26,6 +26,7 @@ void Enemy::initPosition (int x, int y) {
     position->y = y;
 }
 void Enemy::update () {
+    //getPathToTarget ();
     move();
 }
 void Enemy::move() {
@@ -35,61 +36,116 @@ if (!pathToPacman.isEmpty ()) {
     }
 }
 
+void Enemy::getPathToTarget () {
+  const Position * finishPos = Player::playerPosition ();
+  Field = Maze::getField ();
+  int height = Field.size ();
+  int width  = Field[0].size();
+  int tail= 0, head = 0;
+  int dx[4] = {1, 0, -1, 0};
+  int dy[4] = {0, 1, 0, -1};
+
+  register int iy,ix;
+   if (Field[position->x][position->y] == 0 ||
+      Field[finishPos->x][finishPos->y] == 0)
+      return;
+  Position pos;
+  Position *queue = new Position[height * width];
+  for (int i = 0; i < height; ++i) {
+    for (int j = 0; j < width;++j) {
+        if (Field[i][j] != 0)
+            Field[i][j] = -1;
+    }
+  }
+  queue[tail++] = *position;
+  Field[position->x][position->y]  = 1;
+  while (head < tail) {
+        pos = queue[head++];
+        for (int k = 0; k < 4; ++k) {
+            ix =  pos.x + dy[k];
+            iy =  pos.y + dx[k];
+             if ( ix >= 0 && ix < height && iy >= 0 &&
+                iy < width && Field[ix][iy] == -1)
+              {
+                Field[ix][iy] = Field[pos.x][pos.y] + 1;
+                queue[tail++] = Position(ix,iy);
+              }
+        }
+        if (Field[finishPos->x][finishPos->y] != -1)
+            break;
+  }
+    if (Field[finishPos->x][finishPos->y] == -1)
+        return;
+  int x = finishPos->x;
+  int y = finishPos->y;
+  Position seekPos(finishPos->x,finishPos->y);
+  while (seekPos != *position) {
+     pathToPacman.push (seekPos);
+     for (int k = 0; k < 4; ++k) {
+         iy=seekPos.y + dx[k],
+         ix = seekPos.x + dy[k];
+         if ( ix >= 0 && ix < height && iy >= 0 && iy < width &&
+             (Field[ix][iy] == Field[seekPos.x][seekPos.y] - 1) && Field[ix][iy] != 0)  {
+             seekPos.x  = ix;
+             seekPos.y  = iy;
+            break;
+         }
+     }
+  }
+  timer.start(1000);
+}
+/*
 void Enemy::getPathToTarget() {
   pathToPacman.clear ();
   const Position * playerPosition = Player::playerPosition ();
   Field = Maze::getField ();
-  int height = 260;
-  int width  = 228;
-  int **Field2 = new int*[height];
-  for (int i = 0; i < height; ++i)
-    Field2 = new int[width];
+  int height = Field.size ();
+  int width  = Field[0].size();
+
   for (int i = 0; i < height; ++i) {
     for (int j = 0; j < width;++j) {
-        if (Field[i][j] == 0)
-            Field2[i][j] = 0;
-        else Field2[i][j] = -1;
+        if (Field[i][j] != 0)
+            Field[i][j] = -1;
     }
   }
   int dx[4] = {1, 0, -1, 0};
   int dy[4] = {0, 1, 0, -1};
-  int d, x, y, k;
+  register int x, y, d, k;
+  register int iy,ix;
   bool stop;
-  Field2[playerPosition->x][playerPosition->y] = 1;
-  if (Field2[position->x][position->y] == 0 ||
-      Field2[playerPosition->x][playerPosition->y] == 0)
+  if (Field[position->x][position->y] == 0 ||
+      Field[playerPosition->x][playerPosition->y] == 0)
       return;
-
+  time_t t = time(0);
+  int count  = 0;
   // распространение волны
   d = 6;
-  Field2[position->x][position->y]  = 6;
+  Field[position->x][position->y]  = 6;
   do {
        stop = true;
      for ( y = 0; y < height; ++y )
-       for ( x = 0; x < width;++x )
-            if ( Field2[y][x] == d ) {
+       for ( x = 0; x < width;++x ) {
+            count++;
+            if ( Field[y][x] == d ) {
                 for ( k = 0; k < 4; ++k ) {
-                    int iy=y + dy[k];
-                    int ix = x + dx[k];
+                     iy=y + dy[k];
+                     ix = x + dx[k];
                     if ( iy >= 0 && iy < height && ix >= 0 && ix < width &&
-                         ((Field2[iy][ix] == 1) || (Field2[iy][ix] == 2) ||
-                         (Field2[iy][ix] == 3))) {
+                         Field[iy][ix] == -1) {
                          stop = false;
                          Field[iy][ix] = d + 1;
                     }
                 }
             }
+       }
     ++d;
-  } while ( !stop && (Field[playerPosition->x][playerPosition->y] == 1 ||
-          (Field[playerPosition->x][playerPosition->y] == 2) ||
-            Field[playerPosition->x][playerPosition->y] == 3));
-  if (Field[playerPosition->x][playerPosition->y] == 1)
+  } while ( !stop && (Field[playerPosition->x][playerPosition->y] == -1));
+  if (Field[playerPosition->x][playerPosition->y] == -1)
         return;
-
+  t = time(0) - t;
   d = Field[playerPosition->x][playerPosition->y];
   y = playerPosition->x;
   x = playerPosition->y;
-  int val = 0;
   while ( d > 6 ) {
      pathToPacman.push (Position(y, x));
      d--;
@@ -103,9 +159,9 @@ void Enemy::getPathToTarget() {
          }
      }
   }
-  timer.start (10000);
+  timer.start (1000);
 }
-
+*/
 
 /*
 void Enemy::getPathToTarget () {

@@ -5,12 +5,13 @@
 class Position
 {
 public:
-    double x;
-    double y;
+    int x;
+    int y;
     Position();
     Position(int X , int Y);
     void operator=(const Position &position);
     bool operator==(const Position &pos);
+    bool operator!=(const Position &pos);
 };
 
 #endif // POSITION_H
