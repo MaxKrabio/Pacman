@@ -14,9 +14,9 @@ class Game : public QObject
 {
     Q_OBJECT
 private:
+    QScopedPointer<Maze> maze;
     QScopedPointer<Player> player;
     QScopedPointer<Enemy> enemy;
-    QScopedPointer<Maze> maze;
 
     Size *size;
     static int delay;

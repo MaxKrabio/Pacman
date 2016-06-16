@@ -12,8 +12,8 @@ Position* Player::startPosition;
 Player::Player() :QObject()
 {
     pos = new Position();
-    pos->x = 99;
-    pos->y = 44;
+    //set player start position
+    Maze::initPlayerStartPosition();
     dx = 0;
     dy = 0;
     startPosition = new Position();
@@ -86,7 +86,7 @@ void Player::update () {
 }
 void Player::draw (QPainter *painter) {
     painter->setBrush (QBrush(Qt::red, Qt::SolidPattern));
-    painter->drawRect (pos->y *2 - 10, pos->x *2 + 15, 30, 30);
+    painter->drawRect (pos->y *2 - 15, pos->x * 2 - 15 , 30, 30);
 }
 void Player::setOnStartPosition() {
     pos = startPosition;

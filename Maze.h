@@ -15,15 +15,15 @@ class Maze : public QObject
 private:
      Size size;
      QTimer timer;
-     QVector<QString> startField;
-     static QVector<QString> field;
+     QVector< QVector<int> > startField;
+     static QVector<QVector<int> > field;
      std::list<Pill> startPills;
      std::list<Pill> pills;
      static int countPills;
 
 public:
     Maze(const Size &size);
-    Maze(int w, int h);
+    Maze();
     void draw(QPainter *painter);
     void update();
     void removePill(const Position &position);
@@ -31,12 +31,13 @@ public:
     void initPills();
     bool levelComplete();
     void setPillsCount();
-    static QVector<QString> getField();
+    void readFieldData();
+    static const  QVector<QVector<int> > & getField();
     static void initPlayerStartPosition ();
     static void initEnemyStartPosition();
     int getPillsCount();
     static inline bool checkPosition(int x, int y) {
-            return field[x].at (y) != '0';
+            return field[x][y] != 0;
     }
     virtual ~Maze();
 public slots:

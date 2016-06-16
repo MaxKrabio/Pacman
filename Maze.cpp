@@ -7,60 +7,69 @@
 #include "PowerPill.h"
 #include "Game.h"
 #include "Enemy.h"
-QVector<QString> Maze::field;
+QVector<QVector<int> > Maze::field;
 int Maze::countPills;
-/*Maze::Maze(const Size &size) : QObject()
+Maze::Maze() : QObject(), timer(this)
 {
- this->size.height = size.height;
- this->size.width  = size.width;
-
-}*/
-Maze::Maze(int w, int h) : QObject(), timer(this)
-{
- this->size.height = h;
- this->size.width = w;
- QFile file(":/res/resources/maze.txt");
- if (!file.open (QIODevice::ReadOnly)) {
-    QMessageBox msg;
-    msg.setText ("Error! Can't read the maze!");
-    msg.show ();
- }
-    QTextStream out(&file);
-    QString data = out.readLine ();
-    while (data != "") {
-        startField.push_back (data);
-        data = out.readLine();
-    }
+    this->size.height = 260;
+    this->size.width = 228;
+    startField.resize(size.height);
+    // read Map from file;
+    readFieldData();
+    // initialize current field and pills list
     updateData();
+    // change pills list entry
     initPills ();
-    initPlayerStartPosition();
-    initEnemyStartPosition ();
+    // set connect on PowerPill effect
     connect(&timer,&QTimer::timeout,this, &Maze::endAngryPacmanMode);
 }
+void Maze::readFieldData() {
+     for (int i = 0; i < size.height; ++i)
+         startField[i].resize (size.width);
+
+    QFile file(":/res/resources/maze.txt");
+    if (!file.open (QIODevice::ReadOnly)) {
+          QMessageBox msg;
+          msg.setText ("Error! Can't read the maze!");
+          msg.show ();
+          return;
+    }
+    QString value = "";
+    QTextStream out(&file);
+    value = out.read (1);
+    for (int i = 0; ! out.atEnd ();++i) {
+        value = out.read(1);
+        for (int j = 0; value != "\n" && ! out.atEnd ();++j) {
+            startField[i][j] = value.toInt ();
+            value = out.read (1);
+        }
+    }
+}
+
 void Maze::draw (QPainter *painter) {
     QPixmap img(":/res/resources/maze2.png");
-    painter->drawPixmap (0, 0, size.width, size.height, img);
+    painter->drawPixmap (0, 0, size.width * 2, size.height * 2, img);
     painter->setPen (QPen(Qt::darkYellow,3,Qt::SolidLine, Qt::FlatCap));
     painter->setBrush (Qt::darkYellow);
-            for (auto it = pills.begin (); it != pills.end ();++it)
-                it->draw (painter);
+    // draw pills
+    for (auto it = pills.begin (); it != pills.end ();++it)
+        it->draw (painter);
 }
+// init pills
 void Maze::initPills() {
-    int rlength = field.length ();
-    int clength = field[0].length ();
-    for (int row  = 0; row < rlength;++row) {
-        for (int column = 0; column < clength;++column) {
-            if (field[row].at (column) == '3')
-                    startPills.emplace_back(PowerPill(row, column));
-            else if (field[row].at (column) == '2')
-                    startPills.emplace_back(Pill(row, column));
-        }
+     for (int row  = 0; row < size.height; ++row) {
+          for (int column = 0; column < size.width; ++column) {
+                if (field[row][column] == 3)
+                      startPills.emplace_back(PowerPill(row, column));
+                else if (field[row][column] == 2)
+                      startPills.emplace_back(Pill(row, column));
+          }
     }
     countPills = startPills.size ();
     pills = startPills;
 }
 void Maze::removePill(const Position &position) {
-    for (auto it = pills.begin(); it != pills.end(); ++it) {
+    for (auto it = pills.begin(); it != pills.end();++it) {
             if (it->getPostion () == position) {
                 pills.erase(it);
                 break;
@@ -82,15 +91,15 @@ void Maze::updateData() {
 
 void Maze::update() {
     const Position * playerPosition = Player::playerPosition ();
-    if (field[playerPosition->x].at(playerPosition->y) == '2') {
-        field[playerPosition->x].replace (playerPosition->y, 1, "1");
+    if (field[playerPosition->x][playerPosition->y] == 2) {
+        field[playerPosition->x][playerPosition->y] = 1;
         Game::addMoney(10);
         removePill(*playerPosition);
     }
-    else if (field[playerPosition->x].at(playerPosition->y) == '3') {
+    else if (field[playerPosition->x][playerPosition->y] == 3) {
         Game::setDelay (20);
         timer.start (5000);
-        field[playerPosition->x].replace (playerPosition->y, 1, "1");
+        field[playerPosition->x][playerPosition->y] = 1;
         Game::addMoney(20);
         removePill(*playerPosition);
     }
@@ -100,11 +109,11 @@ void Maze::setPillsCount () {
 }
 
 void Maze::initPlayerStartPosition () {
-    int rlength = field.length ();
-    int clength = field[0].length ();
-    for (int row  = 0; row < rlength;++row) {
-         for (int column = 0; column < clength;++column) {
-                if (field[row].at(column) == '5') {
+    int height = field.size ();
+    int width = field[0].size ();
+    for (int row  = 0; row < height;++row) {
+         for (int column = 0; column < width;++column) {
+                if (field[row][column] == 5) {
                      Player::initPosition(row, column);
                     return;
                  }
@@ -112,19 +121,19 @@ void Maze::initPlayerStartPosition () {
     }
 }
 void Maze::initEnemyStartPosition () {
-    int rlength = field.length ();
-    int clength = field[0].length ();
-    for (int row  = 0; row < rlength;++row) {
-         for (int column = 0; column < clength;++column) {
-                if (field[row].at(column) == '4') {
-                     Enemy::initPosition(row, column);
+    int height = field.size ();
+    int width = field[0].size ();
+    for (int row  = 0; row < height;++row) {
+        for (int column = 0; column < width; ++column) {
+            if (field[row][column] == 4) {
+                Enemy::initPosition(row, column);
                     return;
-                 }
-         }
+            }
+        }
     }
 }
 
-QVector<QString> Maze::getField () {
+const QVector<QVector<int> > & Maze::getField() {
     return field;
 }
 

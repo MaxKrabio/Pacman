@@ -9,7 +9,7 @@
 int Game::delay;
 long long Game::money;
 Game::Game(int w ,int h) : QObject(),
-    player(new Player()), enemy(new Enemy()), maze(new Maze(w, h)), size(new Size(w,h))
+    maze(new Maze()),player(new Player()), enemy(new Enemy()), size(new Size(w,h))
 {
     maze->initPlayerStartPosition ();
     delay = 30;
@@ -17,8 +17,8 @@ Game::Game(int w ,int h) : QObject(),
 }
 void Game::draw (QPainter *painter) {
     maze->draw(painter);
-    player->draw (painter);
     enemy->draw(painter);
+    player->draw (painter);
 }
 void Game::update () {
     maze->update();

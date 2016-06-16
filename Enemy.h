@@ -2,25 +2,28 @@
 #define ENEMY_H
 #include <QStack>
 #include "Position.h"
+#include <QTimer>
 class QPainter;
- class Enemy
+ class Enemy : public QObject
 {
+    Q_OBJECT
 private:
     static Position *position;
-    QVector<QString> Field;
+    QVector< QVector<int> > Field;
     QStack<Position> pathToPacman;
     QStack<Position> pathToAngle;
-//public slots:
+    QTimer timer;
 
+public slots:
+     void  getPathToTarget ();
 public:
     Enemy();
     void update();
     void draw(QPainter *painter);
-    void getPathToTarget ();
     void move();
     static const Position & getPosition();
     static void initPosition(int x, int y);
-    ~Enemy();
+    virtual ~Enemy();
 };
 
 #endif // ENEMY_H
