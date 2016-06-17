@@ -9,60 +9,59 @@ int Player::reqDirection = Qt::RightArrow;
 int Player::direction = Qt::RightArrow;
 Position* Player::pos;
 Position* Player::startPosition;
-Player::Player() :QObject()
+//Position* Player::startPosition;
+Player::Player(Maze * maze, QObject *parent) :QObject(parent)
 {
     pos = new Position();
+    this->maze = maze;
     //set player start position
-    Maze::initPlayerStartPosition();
+    maze->initPlayerStartPosition(pos);
     dx = 0;
     dy = 0;
     startPosition = new Position();
     health = 3;
-    speed = 2;
     direction = Qt::RightArrow;
-
     heroSprite = new QPixmap(":/res/resources/pacman.png");
 }
 void Player::setReqDirection (int direct) {
     reqDirection = direct;
 }
-
 bool Player::move(int rDirection) {
 
     bool state = false;
     switch (rDirection) {
         case Qt::Key_Up :
                             if ( pos->x  > 0 &&
-                                Maze::checkPosition (pos->x -1,pos->y)) {
+                                maze->checkPosition (pos->x -1,pos->y)) {
                                   pos->x += - 1;
                                   state = true;
                             }
                             break;
         case Qt::Key_Down :
                             if ( pos->x  < 259  &&
-                                Maze::checkPosition (pos->x +1,pos->y)) {
+                                maze->checkPosition (pos->x +1,pos->y)) {
                                     pos->x += 1;
                                     state = true;
                             }
                             break;
         case Qt::Key_Left :
                             if (pos->y - 1 == 0 &&
-                                Maze::checkPosition (pos->x, pos->y -1)) {
+                                maze->checkPosition (pos->x, pos->y -1)) {
                                     pos->y = 227;
                                     state = true;
                             }  else if ( pos->y  > 0  &&
-                                    Maze::checkPosition (pos->x, pos->y -1)) {
+                                    maze->checkPosition (pos->x, pos->y -1)) {
                                     pos->y += - 1;
                                     state = true;
                             }
                             break;
         case Qt::Key_Right :
                              if ( pos->y + 1 == 227 &&
-                                 Maze::checkPosition (pos->x, pos->y +1 )) {
+                                 maze->checkPosition (pos->x, pos->y +1 )) {
                                      pos->y = 1;
                                      state = true;
                             }  else if ( pos->y < 227 &&
-                                    Maze::checkPosition (pos->x, pos->y +1 )) {
+                                    maze->checkPosition (pos->x, pos->y +1 )) {
                                      pos->y += 1;
                                      state = true;
                             }

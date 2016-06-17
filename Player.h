@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include<QObject>
 #include <QKeyEvent>
+#include "Maze.h"
 class Position;
 class Size;
 class QPainter;
@@ -12,6 +13,7 @@ class Player : public QObject
 private:
         static Position *startPosition;
         static Position *pos;
+        Maze * maze;
         QPixmap  *heroSprite;
         int health;
         int speed;
@@ -20,7 +22,7 @@ private:
         int dx;
         int dy;
 public:
-    explicit Player();
+     Player(Maze *maze, QObject *parent = 0);
     void draw(QPainter *painter);
     void update();
     static const Position * playerPosition();

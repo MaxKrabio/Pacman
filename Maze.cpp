@@ -8,7 +8,6 @@
 #include "Game.h"
 #include "Enemy.h"
 QVector<QVector<int> > Maze::field;
-int Maze::countPills;
 Maze::Maze() : QObject(), timer(this)
 {
     this->size.height = 260;
@@ -65,7 +64,6 @@ void Maze::initPills() {
                       startPills.emplace_back(Pill(row, column));
           }
     }
-    countPills = startPills.size ();
     pills = startPills;
 }
 void Maze::removePill(const Position &position) {
@@ -83,6 +81,7 @@ int Maze::getPillsCount () {
 
 void Maze::endAngryPacmanMode () {
     Game::setDelay (30);
+    emit angryPacmanModeOFF ();
 }
 void Maze::updateData() {
     field = startField;
@@ -99,34 +98,33 @@ void Maze::update() {
     else if (field[playerPosition->x][playerPosition->y] == 3) {
         Game::setDelay (20);
         timer.start (5000);
+        emit angryPacmanModeON();
         field[playerPosition->x][playerPosition->y] = 1;
         Game::addMoney(20);
         removePill(*playerPosition);
     }
 }
-void Maze::setPillsCount () {
-    countPills = startField.size ();
-}
-
-void Maze::initPlayerStartPosition () {
+void Maze::initPlayerStartPosition (Position * pos) {
     int height = field.size ();
     int width = field[0].size ();
     for (int row  = 0; row < height;++row) {
          for (int column = 0; column < width;++column) {
                 if (field[row][column] == 5) {
-                     Player::initPosition(row, column);
+                     pos->x = row;
+                     pos->y  =column;
                     return;
                  }
          }
     }
 }
-void Maze::initEnemyStartPosition () {
+void Maze::initEnemyStartPosition (Position *pos) {
     int height = field.size ();
     int width = field[0].size ();
     for (int row  = 0; row < height;++row) {
         for (int column = 0; column < width; ++column) {
             if (field[row][column] == 4) {
-                Enemy::initPosition(row, column);
+                pos->x = row;
+                pos->y = column;
                     return;
             }
         }

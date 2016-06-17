@@ -14,9 +14,9 @@ class Game : public QObject
 {
     Q_OBJECT
 private:
-    QScopedPointer<Maze> maze;
-    QScopedPointer<Player> player;
-    QScopedPointer<Enemy> enemy;
+    Maze   * maze;
+    Player * player;
+    Enemy  * enemy;
 
     Size *size;
     static int delay;
@@ -27,8 +27,8 @@ signals:
 public slots:
     void startDataUpdate();
 public:
-    explicit Game(const Size &size);
-    explicit Game(int w, int h);
+     Game(const Size &size);
+     Game(int w, int h);
     void draw(QPainter *painter);
     void update();
     bool isOver();

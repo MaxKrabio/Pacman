@@ -33,8 +33,8 @@ public:
     void setPillsCount();
     void readFieldData();
     static const  QVector<QVector<int> > & getField();
-    static void initPlayerStartPosition ();
-    static void initEnemyStartPosition();
+    void initPlayerStartPosition (Position *pos);
+    void initEnemyStartPosition(Position *pos);
     int getPillsCount();
     static inline bool checkPosition(int x, int y) {
             return field[x][y] != 0;
@@ -42,6 +42,9 @@ public:
     virtual ~Maze();
 public slots:
     void endAngryPacmanMode();
+signals:
+    void angryPacmanModeON();
+    void angryPacmanModeOFF();
 };
 
 #endif // MAZE_H

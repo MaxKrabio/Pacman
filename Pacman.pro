@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     Canvas.cpp \
     GameLoop.cpp \
     Pill.cpp \
-    PowerPill.cpp
+    PowerPill.cpp \
+    FirstEnemy.cpp
 
 HEADERS  += mainwindow.h \
     Position.h \
@@ -35,7 +36,8 @@ HEADERS  += mainwindow.h \
     Canvas.h \
     GameLoop.h \
     Pill.h \
-    PowerPill.h
+    PowerPill.h \
+    FirstEnemy.h
 
 FORMS    += mainwindow.ui
 

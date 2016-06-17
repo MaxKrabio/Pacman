@@ -2,17 +2,14 @@
 #include "Maze.h"
 #include "Player.h"
 #include "Enemy.h"
-/*Game::Game(const Size &sz) : size(sz),
-    player(new Player()), maze(new Maze(sz))
-{
-}*/
 int Game::delay;
 long long Game::money;
-Game::Game(int w ,int h) : QObject(),
-    maze(new Maze()),player(new Player()), enemy(new Enemy()), size(new Size(w,h))
+Game::Game(int w ,int h) : QObject(), size(new Size(w,h))
 {
-    maze->initPlayerStartPosition ();
     delay = 30;
+    maze = new Maze();
+    player = new Player(maze,this);
+    enemy = new Enemy(maze,this );
     connect(this,&Game::roundRestart, this, &Game::startDataUpdate);
 }
 void Game::draw (QPainter *painter) {
@@ -51,4 +48,7 @@ void Game::addMoney (int kesh) {
 }
 Game::~Game() {
     delete size;
+    delete player;
+    delete enemy;
+    delete maze;
 }

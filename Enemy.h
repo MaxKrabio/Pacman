@@ -4,11 +4,14 @@
 #include "Position.h"
 #include <QTimer>
 class QPainter;
+class Maze;
  class Enemy : public QObject
 {
     Q_OBJECT
 private:
-    static Position *position;
+    Maze *maze;
+    Position *position;
+    Position *anglepos;
     QVector< QVector<int> > Field;
     QStack<Position> pathToPacman;
     QStack<Position> pathToAngle;
@@ -16,13 +19,18 @@ private:
 
 public slots:
      void  getPathToTarget ();
+     void  getPathToAngle();
+     void fearON();
+     void fearOFF();
 public:
-    Enemy();
+    Enemy(Maze *maze, QObject *parent = 0);
     void update();
     void draw(QPainter *painter);
     void move();
-    static const Position & getPosition();
-    static void initPosition(int x, int y);
+    void findPathToTarget(const Position *targetpos);
+    const Position & getPosition();
+    void initPosition(int x, int y);
+
     virtual ~Enemy();
 };
 
